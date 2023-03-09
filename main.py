@@ -96,11 +96,12 @@ def Sobel_operator_boundaries(dim: int, image: Image.Image) -> Dict[Image.Image,
             sob_negative_image_pixels[-1].append(one_byte_projection(
                 max_grad, min_grad, max_grad) - pixel_byte)
 
-    return {f'sob{dim}_': Image.fromarray(np.array(sob_image_pixels, dtype=np.uint8), mode="L"),
-            f'sob{dim}_negative_': Image.fromarray(np.array(sob_negative_image_pixels, dtype=np.uint8), mode="L"),
-            f'sob{dim}_roberts_': Image.fromarray(np.array(sob_roberts_image_pixels, dtype=np.uint8), mode="L"),
-            f'sob{dim}_roberts_negative_': Image.fromarray(np.array(sob_roberts_negative_image_pixels, dtype=np.uint8), mode="L"),
-            }
+    return {
+        f'sob{dim}_': Image.fromarray(np.array(sob_image_pixels, dtype=np.uint8), mode="L"),
+        f'sob{dim}_negative_': Image.fromarray(np.array(sob_negative_image_pixels, dtype=np.uint8), mode="L"),
+        f'sob{dim}_roberts_': Image.fromarray(np.array(sob_roberts_image_pixels, dtype=np.uint8), mode="L"),
+        f'sob{dim}_roberts_negative_': Image.fromarray(np.array(sob_roberts_negative_image_pixels, dtype=np.uint8), mode="L"),
+    }
 
 
 if __name__ == "__main__":
