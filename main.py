@@ -19,7 +19,7 @@ if __name__ == "__main__":
             # draw_histogram(im.histogram(), filename)
 
             # Preparate image
-            preparated_im = image_preparation(im, 75, 200)
+            preparated_im = image_preparation(im, 80, 200)
 
             # Generating images with preparated image boundaries
             preparated_sob3_ims = Sobel_operator_boundaries(

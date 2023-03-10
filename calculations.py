@@ -110,7 +110,8 @@ def image_preparation(image: Image.Image, min_brightness: int, max_brightness: i
         for x in range(image.width):
             pixel_brigtness = image.getpixel((x, y))
             if pixel_brigtness < min_brightness or pixel_brigtness > max_brightness:
-                pixel_brigtness = 0
-            preparated_image_pixels[-1].append(pixel_brigtness)
+                pixel_brigtness = min_brightness  # so after one_byte_projection it would be 0
+            preparated_image_pixels[-1].append(one_byte_projection(
+                pixel_brigtness, min_brightness, max_brightness))
 
     return Image.fromarray(np.array(preparated_image_pixels, dtype=np.uint8), mode="L")
