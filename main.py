@@ -24,22 +24,27 @@ if __name__ == "__main__":
             threshhold_sob3_negative_im = threshhold_operator(
                 sob3_ims["sob3_negative_"], 0, 210)
 
-            # Preparate image
-            preparated_im = image_preparation(im, 80, 200)
+            # Preparate images
+            preparated1_im = image_preparation(im, 80, 200)
+            preparated2_im = image_preparation(im, 5, 30)
 
-            # Generating images with preparated image boundaries
-            preparated_sob3_ims = Sobel_operator_boundaries(
-                3, preparated_im, "preparated_")
+            # Generating images with preparated images boundaries
+            preparated1_sob3_ims = Sobel_operator_boundaries(
+                3, preparated1_im, "preparated1_")
+            preparated2_sob3_ims = Sobel_operator_boundaries(
+                3, preparated2_im, "preparated2_")
 
             # Saving images
-            for ims_dict in [sob3_ims, sob5_ims, preparated_sob3_ims]:
+            for ims_dict in [sob3_ims, sob5_ims, preparated1_sob3_ims, preparated2_sob3_ims]:
                 for key, item in ims_dict.items():
                     item.save(path.abspath(
                         f'{filefolder + key + filename}'), mode='L')
             threshhold_sob3_negative_im.save(path.abspath(
                 f'{filefolder + "threshhold_sob3_negative_" + filename}'), mode="L")
-            preparated_im.save(path.abspath(
-                f'{filefolder + "preparated_" + filename}'), mode='L')
+            preparated1_im.save(path.abspath(
+                f'{filefolder + "preparated1_" + filename}'), mode='L')
+            preparated2_im.save(path.abspath(
+                f'{filefolder + "preparated2_" + filename}'), mode='L')
 
     except Exception as e:
         print('Error occured:', e, sep='\n')
