@@ -8,11 +8,6 @@ def one_byte_projection(old_intensity: float, min_old_intensity: float, max_old_
     return 255 * (old_intensity - min_old_intensity) // (max_old_intensity - min_old_intensity)
 
 
-def Roberts_operator(Gx: float, Gy: float, delta: float = 150) -> int:
-    return int(sqrt(Gx ** 2 + Gy ** 2) > delta)
-    # return int((abs(Gx) >= delta or abs(Gy) >= delta))  # alternative
-
-
 def Sobel3_operator(f3x3: List[List[int]]) -> Tuple[int, int]:
     # actually Gy, used name from lab file
     Gx = (f3x3[2][0] + f3x3[2][2] - f3x3[0][0] - f3x3[0][2]) +\
@@ -61,24 +56,15 @@ def Sobel_operator_boundaries(dim: int, image: Image.Image, dict_key_prefix: str
         image.width)] for i in range(image.height)]  # save it, so can use more efficiently in next loop
     op_shift = (dim - 1) // 2
 
-    # finding gradients + sobel with roberts (and negative) operator image
+    # finding gradients
     gradients = []
-    sob_roberts_image_pixels = []
-    sob_roberts_negative_image_pixels = []
     for y in range(1, image.height - op_shift):
         gradients.append([])
-        sob_roberts_image_pixels.append([])
-        sob_roberts_negative_image_pixels.append([])
         for x in range(1, image.width - op_shift):
             gradient = Sobel_operator(dim,
                                       [[image_pixels[i][j] for j in range(y - op_shift, y + op_shift + 1)]
                                        for i in range(x - op_shift, x + op_shift + 1)])
             gradients[-1].append(sqrt(gradient[0] ** 2 + gradient[1] ** 2))
-            pixel_byte = one_byte_projection(
-                Roberts_operator(gradient[0], gradient[1]), 0, 1)
-            sob_roberts_image_pixels[-1].append(pixel_byte)
-            sob_roberts_negative_image_pixels[-1].append(
-                one_byte_projection(1, 0, 1) - pixel_byte)
 
     # finding sobel (and negative) image
     sob_image_pixels = []
@@ -98,8 +84,6 @@ def Sobel_operator_boundaries(dim: int, image: Image.Image, dict_key_prefix: str
     return {
         f'{dict_key_prefix}sob{dim}_': Image.fromarray(np.array(sob_image_pixels, dtype=np.uint8), mode="L"),
         f'{dict_key_prefix}sob{dim}_negative_': Image.fromarray(np.array(sob_negative_image_pixels, dtype=np.uint8), mode="L"),
-        f'{dict_key_prefix}sob{dim}_roberts_': Image.fromarray(np.array(sob_roberts_image_pixels, dtype=np.uint8), mode="L"),
-        f'{dict_key_prefix}sob{dim}_roberts_negative_': Image.fromarray(np.array(sob_roberts_negative_image_pixels, dtype=np.uint8), mode="L"),
     }
 
 
