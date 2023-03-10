@@ -99,3 +99,18 @@ def image_preparation(image: Image.Image, min_brightness: int, max_brightness: i
                 pixel_brigtness, min_brightness, max_brightness))
 
     return Image.fromarray(np.array(preparated_image_pixels, dtype=np.uint8), mode="L")
+
+
+def threshhold_operator(image: Image.Image, min_brightness: int = 0, max_brightness: int = 255) -> Image.Image:
+    changed_image_pixels = []
+    for y in range(image.height):
+        changed_image_pixels.append([])
+        for x in range(image.width):
+            pixel_brigtness = image.getpixel((x, y))
+            if pixel_brigtness < min_brightness:
+                pixel_brigtness = 0
+            elif pixel_brigtness > max_brightness:
+                pixel_brigtness = 255
+            changed_image_pixels[-1].append(pixel_brigtness)
+
+    return Image.fromarray(np.array(changed_image_pixels, dtype=np.uint8), mode="L")
