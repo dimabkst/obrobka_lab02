@@ -87,6 +87,7 @@ def Sobel_operator_boundaries(dim: int, image: Image.Image, dict_key_prefix: str
     }
 
 
+# preparation mentioned in lab spec
 def image_preparation(image: Image.Image, min_brightness: int, max_brightness: int) -> Image.Image:
     preparated_image_pixels = []
     for y in range(image.height):

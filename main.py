@@ -34,6 +34,14 @@ if __name__ == "__main__":
             preparated2_sob3_ims = Sobel_operator_boundaries(
                 3, preparated2_im, "preparated2_")
 
+            # Draw preparated2_sob3_negative image histogram
+            draw_histogram(
+                preparated2_sob3_ims["preparated2_sob3_negative_"].histogram(), f'preparated2_sob3_negative_{filename}')
+
+            # Threshhold on preparated2_sobel3_negative
+            threshhold_preparated2_sob3_negative_im = threshhold_operator(
+                preparated2_sob3_ims["preparated2_sob3_negative_"], 0, 235)
+
             # Saving images
             for ims_dict in [sob3_ims, sob5_ims, preparated1_sob3_ims, preparated2_sob3_ims]:
                 for key, item in ims_dict.items():
@@ -45,6 +53,8 @@ if __name__ == "__main__":
                 f'{filefolder + "preparated1_" + filename}'), mode='L')
             preparated2_im.save(path.abspath(
                 f'{filefolder + "preparated2_" + filename}'), mode='L')
+            threshhold_preparated2_sob3_negative_im.save(path.abspath(
+                f'{filefolder + "threshhold_preparated2_sob3_negative_" + filename}'), mode="L")
 
     except Exception as e:
         print('Error occured:', e, sep='\n')
